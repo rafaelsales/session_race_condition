@@ -7,6 +7,10 @@ Notes
 -----
 To create a scenario where the race condition occurs, it is necessary to run deploy this project in a server that support at least two instances simultanously so that it can handle at least two requests in parallel. The Rails built-in server only support one instance, while Apache + Passenger can be configured to run multiple instances.
 
+Code
+----
+The core of this project is just a controller with actions that make changes to the Rails session and have a predefined runtime to make possible reproduce manually a race condition in the Rails session object. This controller is: app/controllers/session_race_condition_controller.rb
+
 Steps to recreate the race condition
 ------------------------------------
 1. Start the web server
