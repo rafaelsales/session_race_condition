@@ -9,12 +9,16 @@ To create a scenario where the race condition occurs, it is necessary to run dep
 
 Steps to recreate the race condition
 ------------------------------------
-Start the web server
 1. Start the web server
+
 2. In your browser, go to http://localhost:3000/session_race_condition/index
+
 3. Then go to http://localhost:3000/session_race_condition/change_session_lazy
+
 4. Before the previous request is completed, i.e. in less than 10 seconds after the it was made, open another browser tab and go to http://localhost:3000/session_race_condition/change_session_fast
+
 5. After the last two requests are completed, go to http://localhost:3000/session_race_condition/index and verify the session contains attribute :creation and either attribute :one or :two.
+
 
 The reason why it happens is because whenever an action makes a change to the session and finish, it replace the current Rails session state with the session state before the action had begun plus the changes the action had made, hence ignoring the changes made by other actions that began, changed the session and finished after the first had started.
 
